@@ -1,31 +1,51 @@
-// var App = () => (
-//   <div>
-//     <nav className="navbar">
-//       <div className="col-md-6 offset-md-3">
-//         <div><h5><em>search</em> view goes here</h5></div>
-//       </div>
-//     </nav>
-//     <div className="row">
-//       <div className="col-md-7">
-//         <div><h5><em>videoPlayer</em> <VideoPlayer video={exampleVideoData[0]}/> </h5></div>
-//       </div>
-//       <div className="col-md-5">
-//         <div><h5><em>videoList</em> <VideoList videos={exampleVideoData}/> </h5></div>
-//       </div>
-//     </div>
-//   </div>
-// );
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    
+  
     this.state = {
-      video: exampleVideoData[0]
-      //id
-      //descript exampledata[].descript
+      // video: this.props.videos[0],
+      // videos: this.props.videos
+      video: exampleVideoData[0],
+      videos: exampleVideoData
     };
   }
+  
+  componentDidMount() {
+    var options = {
+      key: YOUTUBE_API_KEY,
+      query: 'kitties',
+      max: 5
+    };
+    // var searchVideos = 'before';
+    // searchYouTube(options, (data) => { searchVideos = data; });
+    // setTimeout(() => { console.log(searchVideos); }, 1000);
+    
+    
+    searchYouTube(options, (data) => {
+      this.setState({
+        video: data[0],
+        videos: data
+      });
+    });
+    
+  }
+  
+  /*
+  through built in function of App
+  //invoke search youtube
+  */
+  
+  // this.setState({
+  //   video: w.e
+  // })
+  
+  // setVideo () {
+  //   this.setState({
+  //     video: options
+  //   });
+  // }
+
   
   onVideoClick (event) {
     this.setState({
@@ -47,7 +67,7 @@ class App extends React.Component {
             <div><h5><VideoPlayer video={this.state.video}/> </h5></div>
           </div>
           <div className="col-md-5">
-            <div><h5> <VideoList onClickFunction={this.onVideoClick.bind(this)} videos={exampleVideoData}/> </h5></div>
+            <div><h5> <VideoList onClickFunction={this.onVideoClick.bind(this)} videos={this.state.videos}/> </h5></div>
           </div>
         </div>
       </div>
